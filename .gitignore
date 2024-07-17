@@ -1,3 +1,6 @@
 dados_test.json
+__pycache__
+*.pyc
+lista_compras
 venv
 .env

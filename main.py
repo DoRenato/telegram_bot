@@ -2,7 +2,9 @@ import telebot
 import json
 
 from decouple import config
+from telebot import types
 
+from banco_dados import *
 
 
 token=config("TELEGRAM_BOT_TOKEN")
@@ -181,11 +183,38 @@ def impar_par(message_text):
             return "é impar"
     else:
         return "formato errado"
+    
+# def nova_lista():
+#     pass
 
+# def palavras_chave(message_text):
+#     palavras={
+#         'nova lista':nova_lista(),
+#     }
+    
+@bot.message_handler(commands=['start'])
+def send_buttons(message):
+    # Criação dos botões
+    button1 = types.KeyboardButton('Nova Lista')
+    button2 = types.KeyboardButton('Ver Lista')
+    button3 = types.KeyboardButton('Editar Lista')
+    button4 = types.KeyboardButton('Excluir Lista')
+    # button5 = types.KeyboardButton('Excluir Lista')
+    # button6 = types.KeyboardButton('Botão 6')
+    # button7 = types.KeyboardButton('Botão 7')
+    # button8 = types.KeyboardButton('Botão 8')
+    # button9 = types.KeyboardButton('Botão 9')
 
+    # Criação do teclado com os botões
+    keyboard = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
+    keyboard.add(button1, button2, button3, button4)
+
+    # Envia a mensagem com os botões
+    bot.send_message(message.chat.id, 'Escolha uma opção:', reply_markup=keyboard)
+    
 @bot.message_handler()
 def echo_all(message):
-	msg=impar_par(message.text)
-	bot.reply_to(message, msg)
+    msg=impar_par(message.text)
+    bot.reply_to(message, msg)
 
 bot.infinity_polling()
